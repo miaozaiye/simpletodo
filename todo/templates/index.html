@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>form</title>
+    <link rel="stylesheet" href="{% static 'CSS/semantic.css'%}" media="screen" title="no title" charset = "utf-8">
+    <script type = 'text/javascript'  href="{% static 'CSS/semantic.js'%}" media="screen" title="no title" charset = "utf-8"></script>
+</head>
+<body>
+
+<!-- corepart -->
+
+<div class="ui segment" style="width: 60%;margin-left: 20%;">
+  <div class="ui left rail">
+    <div class="ui container" style="padding-left:60%;padding-top:20px;margin-right:0">
+        <h1> {{ count_done }} </h1>
+        <p>finished</p>
+
+        <h1> {{ count_new }} </h1>
+        <p>to be done</p>
+    </div>
+  </div>
+  <div class="ui right rail">
+    <div class="ui segment">Right Rail Content </div>
+  </div>
+  <p></p>
+  <p></p>
+
+
+<div class="ui segment" >
+    <div class="ui container" style="height:25%;margin_left:10%;width:80%">
+        <h3>new add </h3>
+
+        <form class="ui form" action="http://127.0.0.1:8000/index/new" method="POST">
+            <div class="ui container">
+
+                    <div class="ui input" style="width:80%">
+                        <input type="text" name = 'item' placeholder="新增一条待办">
+
+                    </div>
+
+                    {% csrf_token %}
+
+                    <button class="ui button" type ="submit" style="margin_top:200px"> 提交 </button>
+            </div>
+       </form>
+    </div>
+</div>
+
+<div class="ui segment">
+    <div class = "ui container" style="height:25%;margin_left:10%;width:80%">
+        <h3>待办</h3>
+        <div class = "ui container">
+            {% for i in todo_new %}
+            <form class="ui form" action="http://127.0.0.1:8000/index/done" method="POST">
+            <div class="ui container">
+
+                <div class="ui checkbox">
+                    <input type="checkbox" name="id" value = {{ i.id }}>
+                    <label>{{ i.item }}</label>
+                </div>
+            {% csrf_token %}
+            <button type="submit" class="ui button">提交</button>
+            </div>
+            </form>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+<div class="ui segment">
+    <div class = "ui container" style="height:25%;margin_left:10%;width:80%">
+        <h3>已完成</h3>
+        {% for i in todo_done%}
+        <div class="ui container" >
+            <div class="ui segment">
+                <i class="checkmark box icon" style="color:grey"></i>
+                <span style="color:grey">{{i.item}}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- corepart - end -->
+
+</div>
+
+</body>
+
+
+</html>
